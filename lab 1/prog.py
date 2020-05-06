@@ -35,8 +35,7 @@ def calc(ar):
 					after_night = (float(ar[i][3]) * 60 - before_night)
 				else:
 					after_night = (off_date_time - night_date_time).total_seconds()
-					print after_night
-					
+
 				result = (before_night / 60 * 4) + (after_night / 60 * 2)					
 
 		if call_date_time >= night_date_time:
