@@ -13,6 +13,7 @@ def open_file(file_name):
 		for row in reader:
 			ar.append(row)
 		title[0].append("cost")
+	file.close()
 	return ar, title[0]
 
 def calc(ar):
@@ -75,8 +76,6 @@ title = f[1]
 res = calc(calls)
 
 display(calls, title, res)
-
-
 
 print '\nTotal: ' + str(sum(res))
 
