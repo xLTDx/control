@@ -24,18 +24,27 @@ def calc(ar):
 
 		call_date_time = datetime.strptime(get_date_time, '%Y-%m-%d %H:%M:%S')
 		night_date_time = datetime.strptime(get_date + " 00:30:00", '%Y-%m-%d %H:%M:%S')
+		off_date_time = datetime.strptime(get_date + " 01:00:00", '%Y-%m-%d %H:%M:%S')
 
 		if call_date_time < night_date_time:	
 			if call_date_time + timedelta(minutes=float(ar[i][3])) < night_date_time:
 				result = float(ar[i][3]) * 4
 			else:
 				before_night = (night_date_time - call_date_time).total_seconds()
-				after_night = float(ar[i][3]) * 60 - before_night	
+				if float(ar[i][3]) * 60 - before_night <= (off_date_time - night_date_time).total_seconds():
+					after_night = (float(ar[i][3]) * 60 - before_night)
+				else:
+					after_night = (off_date_time - night_date_time).total_seconds()
+					print after_night
+					
 				result = (before_night / 60 * 4) + (after_night / 60 * 2)					
 
 		if call_date_time >= night_date_time:
-			result = float(ar[i][3]) * 2
-	
+			if float(ar[i][3]) * 60 <= (off_date_time - call_date_time).total_seconds():
+				result = float(ar[i][3]) * 2
+			else:
+				result = (off_date_time - call_date_time).total_seconds() / 60 * 2
+
 		if ar[i][4] > 5:
 			result += (float(ar[i][4]) - 5) * 1.5
 
